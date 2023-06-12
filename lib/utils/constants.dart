@@ -6,3 +6,4 @@ const List<String> googleScopes = <String>[
 
 // Firebase Path
 const String usersPath = 'users';
+const String meetingsPath = 'meetings';

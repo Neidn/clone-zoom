@@ -15,12 +15,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late PageController _pageController;
   int _page = 0;
 
-  void onPageChanged(int page) {
+  @override
+  void initState() {
+    _pageController = PageController(
+      initialPage: _page,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int page) {
     setState(() {
       _page = page;
     });
+  }
+
+  void _jumpToPage(int page) {
+    _pageController.jumpToPage(page);
   }
 
   final List<Widget> _pages = [
@@ -41,7 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: PageView(
-          onPageChanged: onPageChanged,
+          controller: _pageController,
+          onPageChanged: _onPageChanged,
+          physics: const NeverScrollableScrollPhysics(),
           children: _pages,
         ),
       ),
@@ -49,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: footerColor,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey,
-        onTap: onPageChanged,
+        onTap: (value) => _jumpToPage(value),
         currentIndex: _page,
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,

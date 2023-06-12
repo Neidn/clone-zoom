@@ -1,9 +1,11 @@
+import 'package:clone_zoom/resources/firestore_methods.dart';
 import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 
 import '/resources/auth_methods.dart';
 
 class JitsiMeetMethods {
   final AuthMethods _authMethods = AuthMethods();
+  final FirestoreMethods _firestoreMethods = FirestoreMethods();
 
   void createMeeting({
     required String myRoom,
@@ -30,6 +32,7 @@ class JitsiMeetMethods {
         isVideoMuted: isVideoMuted,
       );
 
+      _firestoreMethods.addToMeetingHistory(myRoom);
       await JitsiMeetWrapper.joinMeeting(
         options: options,
         listener: JitsiMeetingListener(
