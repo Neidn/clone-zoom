@@ -1,5 +1,6 @@
 import 'package:clone_zoom/resources/firestore_methods.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HistoryMeetingScreen extends StatelessWidget {
   const HistoryMeetingScreen({super.key});
@@ -23,10 +24,22 @@ class HistoryMeetingScreen extends StatelessWidget {
 
         return ListView.builder(
           itemCount: snapshot.data?.docs.length,
-          itemBuilder: (context, index) => ListTile(
-            title:
-                Text('Room Name: ${snapshot.data?.docs[index]['meetingName']}'),
-          ),
+          itemBuilder: (context, index) {
+            final String meetingName =
+                snapshot.data?.docs[index]['meetingName'];
+            final String createdAt = DateFormat.yMMMd().format(
+              snapshot.data?.docs[index]['createdAt'].toDate(),
+            );
+
+            return ListTile(
+              title: Text(
+                'Room Name: $meetingName',
+              ),
+              subtitle: Text(
+                'Joined On: $createdAt',
+              ),
+            );
+          },
         );
       },
     );

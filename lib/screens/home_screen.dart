@@ -1,9 +1,13 @@
-import 'package:clone_zoom/screens/history_meeting_screen.dart';
 import 'package:flutter/material.dart';
 
 import '/utils/colors.dart';
 
+import '/resources/auth_methods.dart';
+
+import '/widgets/custom_button.dart';
+
 import '/screens/meeting_screen.dart';
+import '/screens/history_meeting_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -15,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late PageController _pageController;
+  late final PageController _pageController;
   int _page = 0;
 
   @override
@@ -46,7 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
     MeetingScreen(),
     const HistoryMeetingScreen(),
     const Text('Contacts'),
-    const Text('Settings'),
+    CustomButton(
+      text: 'Logout',
+      onPressed: () => AuthMethods().signOut(),
+    ),
   ];
 
   @override
