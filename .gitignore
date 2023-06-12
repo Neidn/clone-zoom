@@ -57,3 +57,6 @@ app.*.map.json
 /ios/Pods/
 /ios/Podfile.*
 /ios/Podfile
+
+# Google Client ID Includes
+/ios/Runner/Info.plist

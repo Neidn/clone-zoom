@@ -1,3 +1,4 @@
+import 'package:clone_zoom/resources/auth_methods.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -5,8 +6,8 @@ import 'firebase_options.dart';
 
 import '/utils/colors.dart';
 
-import 'screens/login_screen.dart';
-import 'screens/home_screen.dart';
+import '/screens/login_screen.dart';
+import '/screens/home_screen.dart';
 
 Future<void> initServices(WidgetsBinding widgetsBinding) async {
   print('starting services ...');
@@ -40,7 +41,35 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (context) => const LoginScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
       },
-      home: const LoginScreen(),
+      home: StreamBuilder(
+        stream: AuthMethods().authStateChanges,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+
+          // Has error
+          if (snapshot.hasError) {
+            return const Scaffold(
+              body: Center(
+                child: Text('Something went wrong!'),
+              ),
+            );
+          }
+
+          // Has data
+          if (snapshot.hasData) {
+            return const HomeScreen();
+          }
+
+          // Default to login screen
+          return const LoginScreen();
+        },
+      ),
     );
   }
 }
