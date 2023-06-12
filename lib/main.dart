@@ -1,4 +1,3 @@
-import 'package:clone_zoom/resources/auth_methods.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -6,8 +5,11 @@ import 'firebase_options.dart';
 
 import '/utils/colors.dart';
 
+import '/resources/auth_methods.dart';
+
 import '/screens/login_screen.dart';
 import '/screens/home_screen.dart';
+import '/screens/video_call_screen.dart';
 
 Future<void> initServices(WidgetsBinding widgetsBinding) async {
   print('starting services ...');
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.routeName: (context) => const LoginScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
+        VideoCallScreen.routeName: (context) => const VideoCallScreen(),
       },
       home: StreamBuilder(
         stream: AuthMethods().authStateChanges,

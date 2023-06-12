@@ -12,6 +12,8 @@ class AuthMethods {
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
+  User get currentUser => _auth.currentUser!;
+
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: googleScopes,
   );
@@ -25,9 +27,13 @@ class AuthMethods {
       final GoogleSignInAuthentication? googleSignInAuthentication =
           await googleSignInAccount?.authentication;
 
+      if (googleSignInAuthentication == null) {
+        return result;
+      }
+
       final OAuthCredential googleCredential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication?.accessToken,
-        idToken: googleSignInAuthentication?.idToken,
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
       );
 
       final UserCredential userCredential =

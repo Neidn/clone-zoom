@@ -1,6 +1,9 @@
+import 'package:clone_zoom/screens/history_meeting_screen.dart';
 import 'package:flutter/material.dart';
 
 import '/utils/colors.dart';
+
+import '/screens/meeting_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -20,20 +23,27 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  final List<Widget> _pages = [
+    MeetingScreen(),
+    const HistoryMeetingScreen(),
+    const Text('Contacts'),
+    const Text('Settings'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: backgroundColor,
+        elevation: 0,
         title: const Text('Meet & Chat'),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [],
-          ),
-        ],
+      body: SafeArea(
+        child: PageView(
+          onPageChanged: onPageChanged,
+          children: _pages,
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: footerColor,
@@ -64,11 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.settings_outlined),
             label: 'Settings',
             tooltip: 'Settings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.comment_bank),
-            label: 'Meet & Char',
-            tooltip: 'Meet & Char',
           ),
         ],
       ),
